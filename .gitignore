@@ -1,0 +1,15 @@
+*.cöass
+
+*.log
+
+.mtj.tmp/
+
+*.jar
+*.war
+*.esr
+*.zip
+*.tar.gz
+*.rar
+
+.idea
+*.iml

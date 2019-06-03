@@ -1,0 +1,12 @@
+package tokens;
+
+/**
+ * Created by eisentraut on 6/9/16.
+ */
+public enum TokenType {
+    PLUS, MINUS, MUL, DIV, POWER, SQRT, MODULO, FLOAT, LBRACKET, RBRACKET,
+    NOT, EQUALS, AND, OR, SMALLER, GREATER, BOOLEAN,
+    LCURLYBRACKET, RCURLYBRACKET, COMMA, COLON,
+    LET, IN, WHERE, END, IF, THEN, ELSE, ID, PRINT, INPUT,
+    SIN, COS, TAN, LOG, EXP
+}

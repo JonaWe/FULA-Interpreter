@@ -1,0 +1,13 @@
+let
+    isN := {x ->
+        x%1 == 0 && x >= 0}
+    sub := {x, y ->
+        x<=1 || y%x != 0 && sub(x-1, y)}
+    isP := {x ->
+        x!=0 && isN(x) && sub(x-1, x)}
+    printPs := {min, max ->
+        if min >= max 0
+        else printPs(if isP(min) print min+1 else min+1, max)}
+in
+    printPs(input, input)
+end
