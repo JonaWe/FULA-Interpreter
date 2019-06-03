@@ -4,7 +4,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Interpreter i = new Interpreter();
-        i.execute("src\\code.txt");
+        i.execute("code.txt");
         /*System.out.print("input requested: ");
         Scanner scanner = new Scanner(System.in);
         String min = scanner.nextLine();

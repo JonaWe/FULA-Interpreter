@@ -171,22 +171,27 @@ public class Parser {
         Expression leftOperand = parseBoolAnd();
         if(currentTokenTypeIs(TokenType.OR)){
             nextToken();
-            if (currentTokenTypeIs(TokenType.OR)){
-                nextToken();
-                return new BoolExpression(BoolType.OR, leftOperand, parseBoolOr());
-            } else {
-                return new BoolExpression(BoolType.XOR, leftOperand, parseBoolOr());
-            }
+            if (!currentTokenTypeIs(TokenType.OR)) throw wrongTokenException("||");
+            nextToken();
+            return new BoolExpression(BoolType.OR, leftOperand, parseBoolOr());
         } else return leftOperand;
     }
 
     private Expression parseBoolAnd() throws Exception{
-        Expression leftOperand= parseBoolEquals();
+        Expression leftOperand= parseBoolXOr();
         if (currentTokenTypeIs(TokenType.AND)){
             nextToken();
             if (!currentTokenTypeIs(TokenType.AND)) throw wrongTokenException("and");
             nextToken();
             return new BoolExpression(BoolType.AND, leftOperand, parseBoolAnd());
+        } else return leftOperand;
+    }
+
+    private Expression parseBoolXOr() throws Exception{
+        Expression leftOperand = parseBoolEquals();
+        if (currentTokenTypeIs(TokenType.XOR)){
+            nextToken();
+            return new BoolExpression(BoolType.XOR, leftOperand, parseBoolXOr());
         } else return leftOperand;
     }
 

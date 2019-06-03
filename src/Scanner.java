@@ -12,7 +12,7 @@ public class Scanner {
     private boolean isSeparator(char c) {
         return isWhitespace(c) ||  c == '*' || c == '+' || c == '-' || c == '/' || c == '^' || c == '%'|| c == '(' || c == ')'
                 || c == '!' || c == '=' || c == '<' || c == '>' || c == '|' || c == '&'
-                || c == '{' || c == '}' || c == ',' || c == ':' || c == '#';
+                || c == '{' || c == '}' || c == ',' || c == ':' || c == '#' || c == '~';
     }
 
     private boolean isLowercaseChar(char c){
@@ -152,6 +152,8 @@ public class Scanner {
             return new Token(TokenType.AND, tokenString);
         else if(tokenString.equals("|"))
             return new Token(TokenType.OR, tokenString);
+        else if (tokenString.equals("~"))
+            return new Token(TokenType.XOR, tokenString);
         else if(tokenString.equals("<"))
             return new Token(TokenType.SMALLER, tokenString);
         else if(tokenString.equals(">"))
