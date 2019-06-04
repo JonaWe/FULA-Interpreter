@@ -22,7 +22,14 @@ public class Interpreter {
         Parser parser = new Parser(sourceCode.toString());
 
         Expression expression = parser.parse();
+
+        long start = System.currentTimeMillis();
+
         expression = expression.evaluate();
+
+        long end = System.currentTimeMillis();
+
+        System.out.println("Time to calculate im ms: " + (end-start));
         if (!(expression instanceof ValueExpression)) throw new Exception("Sourcecode could not be resolved");
     }
 }

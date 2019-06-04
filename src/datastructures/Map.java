@@ -26,12 +26,17 @@ public class Map<K, V> {
     }
 
     public Map<K, V> add(Map<K, V> addMap){
-        Map<K, V> newMap = getCopy();
+        /*Map<K, V> newMap = getCopy();
         List<Pair<K, V>> l = addMap.getPairList();
         for (l.toFirst();l.hasAccess();l.next()){
             newMap.add(l.getContent().getKey(), l.getContent().getValue());
+        }*/
+        List<Pair<K, V>> pairList = addMap.getPairList();
+        Map<K, V> map = this;
+        for (pairList.toFirst();pairList.hasAccess();pairList.next()){
+            map = map.add(pairList.getContent());
         }
-        return newMap;
+        return map;
     }
 
     private Map<K, V> getCopy(){

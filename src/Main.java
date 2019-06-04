@@ -11,7 +11,13 @@ public class Main {
         System.out.print("input requested: ");
         String max = scanner.nextLine();
 
-        getPs(Double.parseDouble(min), Double.parseDouble(max));*/
+        long start = System.currentTimeMillis();
+
+        getPs(Double.parseDouble(min), Double.parseDouble(max));
+
+        long end = System.currentTimeMillis();
+
+        System.out.println(end-start);*/
     }
 
     private static boolean isN(double x){

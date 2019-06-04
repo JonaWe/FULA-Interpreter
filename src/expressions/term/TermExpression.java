@@ -25,7 +25,7 @@ public class TermExpression extends Expression {
 
     @Override
     public Expression evaluate() throws Exception {
-        if (rightSubExpression != null){    //binary
+        if (rightSubExpression != null){    //binary operator
             leftSubExpression = leftSubExpression.evaluate();
             rightSubExpression = rightSubExpression.evaluate();
             if (leftSubExpression instanceof ValueExpression && rightSubExpression instanceof ValueExpression){
@@ -53,7 +53,7 @@ public class TermExpression extends Expression {
                 return new ValueExpression<>(result);
             } else return new TermExpression(type, leftSubExpression, rightSubExpression);
 
-        } else{                             //unary
+        } else{                             //unary operator
             leftSubExpression = leftSubExpression.evaluate();
             if (leftSubExpression instanceof ValueExpression){
                 if (!(((ValueExpression) leftSubExpression).getValue() instanceof Double))

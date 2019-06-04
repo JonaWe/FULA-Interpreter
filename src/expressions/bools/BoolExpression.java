@@ -26,9 +26,9 @@ public class BoolExpression extends Expression {
 
     @Override
     public Expression evaluate() throws Exception {
-        if (rightSubExpression != null){        //binary
+        if (rightSubExpression != null){        //binary operators
             leftSubExpression = leftSubExpression.evaluate();
-            if (typeIs(BoolType.OR) || typeIs(BoolType.AND)){
+            if (typeIs(BoolType.OR) || typeIs(BoolType.AND)){ //lazy evaluation
                 if (leftSubExpression instanceof ValueExpression){
                     if (!(((ValueExpression) leftSubExpression).getValue() instanceof Boolean)) throw new Exception("Boolean expected");
                     if (typeIs(BoolType.OR) && (Boolean) ((ValueExpression) leftSubExpression).getValue())
@@ -77,7 +77,7 @@ public class BoolExpression extends Expression {
                     return new ValueExpression<>(bool);
                 } else throw new Exception("Boolean or Integer expected");
             } else return new BoolExpression(type, leftSubExpression, rightSubExpression);
-        } else{                             //unary
+        } else{                             //unary operators
             leftSubExpression = leftSubExpression.evaluate();
             if (leftSubExpression instanceof ValueExpression){
                 if (!(((ValueExpression) leftSubExpression).getValue() instanceof Boolean))

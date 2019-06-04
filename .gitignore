@@ -1,7 +1,11 @@
+*.idea
+*.iml
+
+.idea
+out
+
 *.cöass
-
 *.log
-
 .mtj.tmp/
 
 *.jar
@@ -10,6 +14,3 @@
 *.zip
 *.tar.gz
 *.rar
-
-.idea
-*.iml
