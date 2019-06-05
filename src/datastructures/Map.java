@@ -26,25 +26,11 @@ public class Map<K, V> {
     }
 
     public Map<K, V> add(Map<K, V> addMap){
-        /*Map<K, V> newMap = getCopy();
-        List<Pair<K, V>> l = addMap.getPairList();
-        for (l.toFirst();l.hasAccess();l.next()){
-            newMap.add(l.getContent().getKey(), l.getContent().getValue());
-        }*/
         List<Pair<K, V>> pairList = addMap.getPairList();
-        Map<K, V> map = this;
         for (pairList.toFirst();pairList.hasAccess();pairList.next()){
-            map = map.add(pairList.getContent());
+            add(pairList.getContent());
         }
-        return map;
-    }
-
-    private Map<K, V> getCopy(){
-        Map<K, V> copy = new Map<>();
-        for (pairList.toFirst();pairList.hasAccess();pairList.next()){
-            copy.add(pairList.getContent().getKey(), pairList.getContent().getValue());
-        }
-        return copy;
+        return this;
     }
 
     public boolean remove(K key){

@@ -36,11 +36,13 @@ public class Scanner {
         int i = 0;
         while (i < input.length()) {
             if (blockComment){
+                // testen, ob der Block-Kommentar beendet werden soll
                if (i+1 < input.length() && input.charAt(i) == '#' && input.charAt(i+1) == '#'){
                    i++;
                    blockComment = false;
                }
             } else if (comment){
+                // testen, ob der Kommentar beendet werden soll
                 if (input.charAt(i) == '\n'){
                     comment = false;
                 }
@@ -56,8 +58,10 @@ public class Scanner {
 
                 }
                 if (i < input.length() && !isWhitespace(input.charAt(i))) {
+                    // testen, ob ein Kommentar folgt
                     if (input.charAt(i) == '#'){
                         comment = true;
+                        // testen, ob es sich um einen Block-Kommentar nandelt
                         if (i+1 < input.length() && input.charAt(i+1) == '#'){
                             i++;
                             comment = false;

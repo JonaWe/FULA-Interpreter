@@ -1,10 +1,18 @@
+##
+Beispielprogramm zu ausgeben aller Primzahlen von 0 bis 1000
+##
+
 let
+    # isN gibt true aus wenn die x eine Natürliche Zahl größer als 1 ist
     isN := {x ->
-        x%1 == 0 && x >= 0}
+        x%1 == 0 && x > 1}
+    # sub gibt true zurück wenn sich y durch kein keine ganze Zahl kleiner oder gleich x Teilen lässt
     sub := {x, y ->
         x<=1 || y%x != 0 && sub(x-1, y)}
+    # isP gibt true zurück, wenn x eine Primzahl ist
     isP := {x ->
-        x!=0 && isN(x) && sub(x-1, x)}
+        isN(x) && sub(x-1, x)}
+    # printPs gibt alle primzahlen von min bis max aus
     printPs := {min, max ->
         if min >= max 0
         else printPs(if isP(min) print min+1 else min+1, max)}

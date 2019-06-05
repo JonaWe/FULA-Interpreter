@@ -15,18 +15,23 @@ public class PrintExpression extends Expression {
 
     @Override
     public Expression evaluate() throws Exception {
+        // unter Expression wird ausgewertet
         subExpression = subExpression.evaluate();
+        // wenn die unter Expression ein Wert ist wird diese in der Konsole ausgegeben
         if (subExpression instanceof ValueExpression) System.out.println(((ValueExpression) subExpression).getValue());
+        // danach wird die unter Expression augegeben
         return subExpression;
     }
 
     @Override
     public Expression addMap(Map<String, Expression> map) {
+        // die addMap Methode wird für die unter Expression aufgerufen
         return new PrintExpression(subExpression.addMap(map));
     }
 
     @Override
     public Expression replace(String id, Expression replacement) {
+        // die replace Methode wird für die unter Expression aufgerufen
         return new PrintExpression(subExpression.replace(id,replacement));
     }
 }

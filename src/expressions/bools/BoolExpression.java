@@ -26,62 +26,72 @@ public class BoolExpression extends Expression {
 
     @Override
     public Expression evaluate() throws Exception {
-        if (rightSubExpression != null){        //binary operators
+        if (rightSubExpression != null){// wenn der Operator binär ist
+            // linke Expression wird ausgewertet
             leftSubExpression = leftSubExpression.evaluate();
-            if (typeIs(BoolType.OR) || typeIs(BoolType.AND)){ //lazy evaluation
-                if (leftSubExpression instanceof ValueExpression){
-                    if (!(((ValueExpression) leftSubExpression).getValue() instanceof Boolean)) throw new Exception("Boolean expected");
-                    if (typeIs(BoolType.OR) && (Boolean) ((ValueExpression) leftSubExpression).getValue())
-                        return new ValueExpression<>(true);
-                    else if (typeIs(BoolType.AND) && !((Boolean) ((ValueExpression) leftSubExpression).getValue()))
-                        return new ValueExpression<>(false);
-                }
+            // wenn der Operator Oder oder Und ist wird getestet, ob die rechte Expression nicht ausgewertet werden
+            // muss um ein Ergebnis zu liefern. false && leftExpression müsste leftExpression nicht auswerten,
+            // da unabhängig davon false zurückgegeben wird
+            if ((typeIs(BoolType.OR) || typeIs(BoolType.AND)) && leftSubExpression instanceof ValueExpression){
+                if (!(((ValueExpression) leftSubExpression).getValue() instanceof Boolean)) throw new Exception("Boolean expected");
+                if (typeIs(BoolType.OR) && (Boolean) ((ValueExpression) leftSubExpression).getValue())
+                    return new ValueExpression<>(true);
+                else if (typeIs(BoolType.AND) && !((Boolean) ((ValueExpression) leftSubExpression).getValue()))
+                    return new ValueExpression<>(false);
             }
             rightSubExpression = rightSubExpression.evaluate();
+            // wenn beide unter Expressions Werte Expressions sind
             if (leftSubExpression instanceof ValueExpression && rightSubExpression instanceof ValueExpression) {
                 if (((ValueExpression) leftSubExpression).getValue() instanceof Boolean
                         && ((ValueExpression) rightSubExpression).getValue() instanceof Boolean){
+                    // wenn sie vom typen Boolean sind wird das Ergebnis berechnet und zurückgegeben
                     boolean left = (boolean) ((ValueExpression) leftSubExpression).getValue();
                     boolean right = (boolean) ((ValueExpression) rightSubExpression).getValue();
-                    boolean bool;
+                    boolean result;
                     if (typeIs(BoolType.AND))
-                        bool = left && right;
+                        result = left && right;
                     else if (typeIs(BoolType.OR))
-                        bool = left || right;
+                        result = left || right;
                     else if (typeIs(BoolType.XOR))
-                        bool = left ^ right;
+                        result = left ^ right;
                     else if (typeIs(BoolType.EQU))
-                        bool = left == right;
+                        result = left == right;
                     else if (typeIs(BoolType.NOTEQU))
-                        bool = left != right;
+                        result = left != right;
                     else throw new Exception("AND, OR, EQUALS, NOT EQUALS or XOR operation expected");
-                    return new ValueExpression<>(bool);
+                    return new ValueExpression<>(result);
+                    // sonst wird geprüft, ob beide unter Expressions Doubles sind
                 } else if(((ValueExpression) leftSubExpression).getValue() instanceof Double
                         && ((ValueExpression) rightSubExpression).getValue() instanceof Double){
+                    // wenn beide Doubles sind wird das Ergebnis berechnet
                     double left = (double) ((ValueExpression) leftSubExpression).getValue();
                     double right = (double) ((ValueExpression) rightSubExpression).getValue();
-                    boolean bool;
+                    boolean result;
                     if (typeIs(BoolType.SMALER))
-                        bool = left < right;
+                        result = left < right;
                     else if (typeIs(BoolType.SMALEREQU))
-                        bool = left <= right;
+                        result = left <= right;
                     else if (typeIs(BoolType.GREATER))
-                        bool = left > right;
+                        result = left > right;
                     else if (typeIs(BoolType.GREATEREQU))
-                        bool = left >= right;
+                        result = left >= right;
                     else if (typeIs(BoolType.EQU))
-                        bool = left == right;
+                        result = left == right;
                     else if (typeIs(BoolType.NOTEQU))
-                        bool = left != right;
-                    else throw new Exception("<, >=, >, >=, = or != expected");
-                    return new ValueExpression<>(bool);
+                        result = left != right;
+                    else throw new Exception("<, >=, >, >=, == or != expected");
+                    return new ValueExpression<>(result);
+                    // wenn nicht beide booleans oder Doubles sinf wird ein Fehler zurückgegeben
                 } else throw new Exception("Boolean or Integer expected");
             } else return new BoolExpression(type, leftSubExpression, rightSubExpression);
-        } else{                             //unary operators
+        } else{// wenn der Operator unär ist
             leftSubExpression = leftSubExpression.evaluate();
+            // testen, ob der Operator eine Werte-Expression ist
             if (leftSubExpression instanceof ValueExpression){
+                // wenn die Werte Expression kein bool ist Fehler zurückgeben
                 if (!(((ValueExpression) leftSubExpression).getValue() instanceof Boolean))
                     throw new Exception("Boolean expected instead found Double");
+                //die Negation wird zurückgeben
                 if (typeIs(BoolType.NOT))
                     return new ValueExpression<>(!((boolean) ((ValueExpression) leftSubExpression).getValue()));
                 else
@@ -92,9 +102,9 @@ public class BoolExpression extends Expression {
 
     @Override
     public Expression addMap(Map<String, Expression> map) {
-        if (rightSubExpression == null){
+        if (rightSubExpression == null){// Übergabe der map für unäre Operatoren
             return new BoolExpression(type, leftSubExpression.addMap(map));
-        } else {
+        } else {// übergabe der Map für binäre Operatoren
             return new BoolExpression(type,
                     leftSubExpression.addMap(map),
                     rightSubExpression.addMap(map));
@@ -103,9 +113,9 @@ public class BoolExpression extends Expression {
 
     @Override
     public Expression replace(String id, Expression replacement) {
-        if (rightSubExpression == null) {
+        if (rightSubExpression == null) {// Ersetzen für unäre Operatoren
             return new BoolExpression(type, leftSubExpression.replace(id, replacement));
-        } else {
+        } else {//Ersetzen für binäre Operatoren
             return new BoolExpression(type,
                     leftSubExpression.replace(id, replacement),
                     rightSubExpression.replace(id, replacement));

@@ -15,19 +15,25 @@ public class IfExpression extends Expression {
 
     @Override
     public Expression evaluate() throws Exception {
+        // wertet die Bedingung der If-Expression aus
         condition = condition.evaluate();
+        // Wenn die Bedingung ein Wert ist wird die richtige Auswertung gestartet
         if (condition instanceof ValueExpression){
+            // wenn die Bedingung keinn Bool ist wird ein Fehler gegeben
             if (!(((ValueExpression) condition).getValue() instanceof Boolean))
                 throw new Exception("IfExpression requires a Boolean as a condition");
+            // wenn die Bedingung wahr ist wird die ausgewertete wahre Expression zurückgegeben
             if ((boolean) ((ValueExpression) condition).getValue()){
                 //assert condition == true
                 return trueExpression.evaluate();
+            // sonst wird die ausgewertete false Expression zurückgegeben
             } else{
                 //assert condition == false
                 return falseExpression.evaluate();
 
             }
-        } else return new IfExpression(condition, trueExpression, falseExpression);
+        } // wenn die Bedingung kein Wert ist wird einen neue If-Expression mit der ausgewerteten Bedingung zurückgegeben
+        else return new IfExpression(condition, trueExpression, falseExpression);
     }
 
     @Override
