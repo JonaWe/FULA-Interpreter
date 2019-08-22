@@ -1,19 +1,19 @@
 package datastructures;
 
-public class Pair<K, V> {
-    private K key;
-    private V value;
+public class Pair<Key, Value> {
+    private Key key;
+    private Value value;
 
-    public Pair(K key, V value){
+    public Pair(Key key, Value value){
         this.key = key;
         this.value = value;
     }
 
-    public K getKey() {
+    public Key getKey() {
         return key;
     }
 
-    public V getValue() {
+    public Value getValue() {
         return value;
     }
 

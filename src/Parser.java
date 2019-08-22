@@ -35,9 +35,9 @@ public class Parser {
         tokenList.next();
     }
 
-    private Exception wrongTokenException(String s){
+    private Exception wrongTokenException(String expectation){
         // gibt eine Exception zurück mit dem was erwartet war und was anstattdessen gefunden wurde
-        return new Exception("'"+s+"' expected. Instead found "+tokenList.getContent().toString());
+        return new Exception("'"+expectation+"' expected. Instead found "+tokenList.getContent().toString());
     }
 
     private Pair<String, Expression> getAssignment() throws Exception{

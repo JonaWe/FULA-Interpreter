@@ -1,5 +1,5 @@
 ##
-Beispielprogramm zu ausgeben aller Primzahlen von 0 bis 1000
+Beispielprogramm zu Ausgeben aller Primzahlen von 0 bis 1000
 ##
 
 let
