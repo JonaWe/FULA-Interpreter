@@ -209,6 +209,8 @@ public class Scanner {
             return new Token(TokenType.LSQUAREBRACKET, tokenString);
         else if (tokenString.equals("]"))
             return new Token(TokenType.RSQUAREBRACKET, tokenString);
+        else if (tokenString.equals("add"))
+            return new Token(TokenType.ADD, tokenString);
 
         else if(isIdentifier(tokenString))
             return new ContainerToken<>(TokenType.ID, tokenString, tokenString);

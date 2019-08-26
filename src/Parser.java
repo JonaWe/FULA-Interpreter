@@ -95,9 +95,21 @@ public class Parser {
             return list;
         } else if (currentTokenTypeIs(TokenType.RSQUAREBRACKET)){
             nextToken();
-            return new ListExpression(previous, null, content);
+            ListExpression list = new ListExpression(previous, null, content);
+            if (currentTokenTypeIs(TokenType.ADD)){
+                nextToken();
+                if (currentTokenTypeIs(TokenType.LSQUAREBRACKET)) {
+                    nextToken();
+                    ListExpression le = parseList(list);
+                    list.setNext(le);
+                } else {
+                    Expression addExp = parseExp();
+                    ListExpression le = new ListExpression(list, null, addExp);
+                    list.setNext(le);
+                }
+            }
+            return list;
         } else throw wrongTokenException("] OR ;");
-        
     }
 
     private Expression parseFun() throws Exception{

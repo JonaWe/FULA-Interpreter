@@ -2,7 +2,7 @@
 Beispielprogramm zu Ausgeben aller Primzahlen von 0 bis 1000
 ##
 
-print ([x * 10 where x := 2 end; 4])
+print ([x * 10 where x := 2 end; 4] add [10; 2] add [x*x where x := 8 end])
 
 ##
 let
