@@ -154,7 +154,12 @@ public class Parser {
             nextToken();
             // wenn dies der falls ist wird die parseApp Methode mit dem parameter der (verschachtelten) funktionen übergeben
             return parseApp(fun);
-        } else return fun; // ansonsten wird nur die (verschachtelte) Funktion zurückgegeben
+        } else if (currentTokenTypeIs(TokenType.MAP)){
+            nextToken();
+            if (!currentTokenTypeIs(TokenType.LSQUAREBRACKET)) throw wrongTokenException("[");
+            nextToken();
+            return parseList(null).map(fun);
+        }else return fun; // ansonsten wird nur die (verschachtelte) Funktion zurückgegeben
    }
 
     private Expression parseApp(Expression fun) throws Exception{

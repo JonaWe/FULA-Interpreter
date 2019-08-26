@@ -6,6 +6,8 @@
 package expressions;
 
 import datastructures.Map;
+import expressions.lambda.AppExpression;
+import expressions.lambda.FunExpression;
 
 public class ListExpression extends Expression {
     private ListExpression previous;
@@ -25,6 +27,15 @@ public class ListExpression extends Expression {
             return ((ValueExpression) content).getValue().toString() + "; " + next.print();
         else
             return ((ValueExpression) content).getValue().toString() + "]";
+    }
+    public ListExpression map(Expression function) throws Exception {
+        if (content != null){
+            content = new AppExpression(function.evaluate(), content.evaluate());
+        }
+        if (next != null){
+            next = next.map(function);
+        }
+        return this;
     }
     
     @Override
