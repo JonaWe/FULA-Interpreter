@@ -98,7 +98,7 @@ public class Scanner {
             if (pos+1 == s.length())
                 return true;
             else
-                return isFloatK(s, pos);
+                return isFloatK(s, pos+1);
         } else return false;
     }
 
