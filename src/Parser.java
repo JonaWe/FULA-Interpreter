@@ -159,7 +159,12 @@ public class Parser {
             if (!currentTokenTypeIs(TokenType.LSQUAREBRACKET)) throw wrongTokenException("[");
             nextToken();
             return parseList(null).map(fun);
-        }else return fun; // ansonsten wird nur die (verschachtelte) Funktion zurückgegeben
+        } else if (currentTokenTypeIs(TokenType.DROP)){
+            nextToken();
+            if (!currentTokenTypeIs(TokenType.LSQUAREBRACKET)) throw wrongTokenException("[");
+            nextToken();
+            return parseList(null).drop(fun);
+        } else return fun; // ansonsten wird nur die (verschachtelte) Funktion zurückgegeben
    }
 
     private Expression parseApp(Expression fun) throws Exception{

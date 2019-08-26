@@ -7,7 +7,6 @@ package expressions;
 
 import datastructures.Map;
 import expressions.lambda.AppExpression;
-import expressions.lambda.FunExpression;
 
 public class ListExpression extends Expression {
     private ListExpression previous;
@@ -36,6 +35,37 @@ public class ListExpression extends Expression {
             next = next.map(function);
         }
         return this;
+    }
+    
+    public ListExpression drop(Expression function) throws Exception {
+        Expression evaluated = content.evaluate();
+        if (!(evaluated instanceof ValueExpression))
+            throw new Exception("couldn't evaluate a list parameter");
+        Expression isDropped = new AppExpression(function.evaluate(), evaluated).evaluate();
+        if (!(isDropped instanceof ValueExpression && ((ValueExpression) isDropped).getValue() instanceof Boolean))
+            throw new Exception("couldn't apply the drop function on one of the list parameters");
+        if ((Boolean) ((ValueExpression) isDropped).getValue()){
+            return remove().drop(function);
+        } else if (next != null){
+            next.drop(function);
+            return this;
+        } else return this;
+        
+    }
+    
+    public ListExpression remove() throws Exception{
+        if (previous == null && next == null) throw new Exception("Lists can not be empty");
+        else if (previous == null) {
+            next.setPrevious(null);
+            return next;
+        } else if (next == null) {
+            previous.setNext(null);
+            return previous;
+        } else {
+            previous.setNext(next);
+            next.setPrevious(previous);
+            return previous;
+        }
     }
     
     @Override
@@ -67,5 +97,9 @@ public class ListExpression extends Expression {
     
     public void setNext(ListExpression next) {
         this.next = next;
+    }
+    
+    public void setPrevious(ListExpression previous) {
+        this.previous = previous;
     }
 }

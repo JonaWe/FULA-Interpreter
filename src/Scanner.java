@@ -213,6 +213,8 @@ public class Scanner {
             return new Token(TokenType.ADD, tokenString);
         else if (tokenString.equals("map"))
             return new Token(TokenType.MAP, tokenString);
+        else if (tokenString.equals("drop"))
+            return new Token(TokenType.DROP, tokenString);
 
         else if(isIdentifier(tokenString))
             return new ContainerToken<>(TokenType.ID, tokenString, tokenString);
