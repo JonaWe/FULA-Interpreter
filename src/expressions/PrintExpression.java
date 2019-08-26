@@ -19,6 +19,7 @@ public class PrintExpression extends Expression {
         subExpression = subExpression.evaluate();
         // wenn die unter Expression ein Wert ist wird diese in der Konsole ausgegeben
         if (subExpression instanceof ValueExpression) System.out.println(((ValueExpression) subExpression).getValue());
+        else if (subExpression instanceof ListExpression) System.out.println("[" + ((ListExpression) subExpression).print());
         // danach wird die unter Expression augegeben
         return subExpression;
     }

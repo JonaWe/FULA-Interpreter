@@ -10,9 +10,9 @@ public class Scanner {
     }
 
     private boolean isSeparator(char c) {
-        return isWhitespace(c) ||  c == '*' || c == '+' || c == '-' || c == '/' || c == '^' || c == '%'|| c == '(' || c == ')'
-                || c == '!' || c == '=' || c == '<' || c == '>' || c == '|' || c == '&'
-                || c == '{' || c == '}' || c == ',' || c == ':' || c == '#' || c == '~';
+        return isWhitespace(c) ||  c == '*' || c == '+' || c == '-' || c == '/' || c == '^' || c == '%'|| c == '('
+                || c == ')' || c == '!' || c == '=' || c == '<' || c == '>' || c == '|' || c == '&' || c == '{'
+                || c == '}' || c == ',' || c == ':' || c == '#' || c == '~' || c == ';' || c == '[' || c == ']';
     }
 
     private boolean isLowercaseChar(char c){
@@ -202,6 +202,13 @@ public class Scanner {
             return new Token(TokenType.LOG, tokenString);
         else if (tokenString.equals("exp"))
             return new Token(TokenType.EXP, tokenString);
+        
+        else if (tokenString.equals(";"))
+            return new Token(TokenType.SEMICOLON, tokenString);
+        else if (tokenString.equals("["))
+            return new Token(TokenType.LSQUAREBRACKET, tokenString);
+        else if (tokenString.equals("]"))
+            return new Token(TokenType.RSQUAREBRACKET, tokenString);
 
         else if(isIdentifier(tokenString))
             return new ContainerToken<>(TokenType.ID, tokenString, tokenString);

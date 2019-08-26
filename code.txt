@@ -2,6 +2,9 @@
 Beispielprogramm zu Ausgeben aller Primzahlen von 0 bis 1000
 ##
 
+print ([x * 10 where x := 2 end; 4])
+
+##
 let
     # isN gibt true aus wenn die x eine Natürliche Zahl größer als 1 ist
     isN := {x ->
@@ -17,5 +20,6 @@ let
         if min >= max 0
         else printPs(if isP(min) print min+1 else min+1, max)}
 in
-    printPs(0, 1000)
+    printPs(0, 100)
 end
+##

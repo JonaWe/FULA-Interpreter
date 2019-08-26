@@ -80,8 +80,25 @@ public class Parser {
            // parsen für Let-Anweisungen
            nextToken();
            return parseLet();
+       } else if (currentTokenTypeIs(TokenType.LSQUAREBRACKET)) {
+           nextToken();
+           return parseList(null);
        } else return parseWhere(); // parsen von allem anderen war möglich ist
-   }
+    }
+    
+    private ListExpression parseList(ListExpression previous) throws Exception{
+        Expression content = parseExp();
+        if (currentTokenTypeIs(TokenType.SEMICOLON)){
+            nextToken();
+            ListExpression list = new ListExpression(previous, null, content);
+            list.setNext(parseList(list));
+            return list;
+        } else if (currentTokenTypeIs(TokenType.RSQUAREBRACKET)){
+            nextToken();
+            return new ListExpression(previous, null, content);
+        } else throw wrongTokenException("] OR ;");
+        
+    }
 
     private Expression parseFun() throws Exception{
         // als erstes wird ein Bezeichner erwartet, dem einen Expression zugewiesen wird

@@ -1,3 +1,4 @@
+import expressions.ListExpression;
 import expressions.ValueExpression;
 import expressions.Expression;
 
@@ -31,6 +32,6 @@ public class Interpreter {
         expression = expression.evaluate();
 
         // es wird geprüft, ob der AST zu einem Wert reduziert werden konnte
-        if (!(expression instanceof ValueExpression)) throw new Exception("Sourcecode could not be resolved");
+        if (!(expression instanceof ValueExpression || expression instanceof ListExpression)) throw new Exception("Sourcecode could not be resolved");
     }
 }
