@@ -12,7 +12,8 @@ public class Scanner {
     private boolean isSeparator(char c) {
         return isWhitespace(c) ||  c == '*' || c == '+' || c == '-' || c == '/' || c == '^' || c == '%'|| c == '('
                 || c == ')' || c == '!' || c == '=' || c == '<' || c == '>' || c == '|' || c == '&' || c == '{'
-                || c == '}' || c == ',' || c == ':' || c == '#' || c == '~' || c == ';' || c == '[' || c == ']';
+                || c == '}' || c == ',' || c == ':' || c == '#' || c == '~' || c == ';' || c == '[' || c == ']'
+                || c == '"';
     }
 
     private boolean isLowercaseChar(char c){
@@ -32,6 +33,7 @@ public class Scanner {
         String currentSubString = "";
         boolean comment = false;
         boolean blockComment = false;
+        boolean string = false;
 
         int i = 0;
         while (i < input.length()) {
@@ -46,31 +48,42 @@ public class Scanner {
                 if (input.charAt(i) == '\n'){
                     comment = false;
                 }
-            }else{
-                currentSubString = "";
-                while (i < input.length() && !isSeparator(input.charAt(i))) {
-                    currentSubString = currentSubString + (input.charAt(i));
-                    i++;
-                }
-
-                if (currentSubString.length() > 0) {
+            } else if (string) {
+                currentSubString += input.charAt(i);
+                if (input.charAt(i) == '\"'){
                     stringList.append(currentSubString);
-
+                    string = false;
                 }
-                if (i < input.length() && !isWhitespace(input.charAt(i))) {
-                    // testen, ob ein Kommentar folgt
-                    if (input.charAt(i) == '#'){
-                        comment = true;
-                        // testen, ob es sich um einen Block-Kommentar nandelt
-                        if (i+1 < input.length() && input.charAt(i+1) == '#'){
-                            i++;
-                            comment = false;
-                            blockComment = true;
-                        }
+            } else {
+                currentSubString = "";
+                if (input.charAt(i) == '\"'){
+                    string = true;
+                    currentSubString = "\"";
+                }
+                else {
+                    while (i < input.length() && !isSeparator(input.charAt(i))) {
+                        currentSubString = currentSubString + (input.charAt(i));
+                        i++;
                     }
-                    else stringList.append(Character.toString(input.charAt(i)));
+    
+                    if (currentSubString.length() > 0) {
+                        stringList.append(currentSubString);
+    
+                    }
+                    if (i < input.length() && !isWhitespace(input.charAt(i))) {
+                        // testen, ob ein Kommentar folgt
+                        if (input.charAt(i) == '#'){
+                            comment = true;
+                            // testen, ob es sich um einen Block-Kommentar nandelt
+                            if (i+1 < input.length() && input.charAt(i+1) == '#'){
+                                i++;
+                                comment = false;
+                                blockComment = true;
+                            }
+                        } else stringList.append(Character.toString(input.charAt(i)));
+                    }
+    
                 }
-
             }
             i = i + 1;
         }
@@ -215,6 +228,9 @@ public class Scanner {
             return new Token(TokenType.MAP, tokenString);
         else if (tokenString.equals("filter"))
             return new Token(TokenType.FILTER, tokenString);
+        
+        else if (tokenString.startsWith("\""))
+            return new ContainerToken<>(TokenType.STRING, tokenString, tokenString.substring(1, tokenString.length() - 1));
 
         else if(isIdentifier(tokenString))
             return new ContainerToken<>(TokenType.ID, tokenString, tokenString);

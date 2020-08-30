@@ -460,6 +460,10 @@ public class Parser {
             ContainerToken<Boolean> bool = (ContainerToken<Boolean>) tokenList.getContent();
             nextToken();
             return new ValueExpression<>(bool.getContent());
+        } else if(currentTokenTypeIs(TokenType.STRING)){
+            ContainerToken<String> string = (ContainerToken<String>) tokenList.getContent();
+            nextToken();
+            return new ValueExpression<>(string.getContent());
         }else throw wrongTokenException("Float, boolean, identifier or unary operator");
    }
 }
