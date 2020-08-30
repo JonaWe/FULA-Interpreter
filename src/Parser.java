@@ -9,6 +9,7 @@ import expressions.bools.BoolType;
 import expressions.lambda.AppExpression;
 import expressions.lambda.FunExpression;
 import expressions.lambda.IdExpression;
+import expressions.list.ListNodeExpression;
 import expressions.term.MathExpression;
 import expressions.term.MathType;
 import tokens.ContainerToken;
@@ -86,25 +87,25 @@ public class Parser {
        } else return parseWhere(); // parsen von allem anderen war möglich ist
     }
     
-    private ListExpression parseList(ListExpression previous) throws Exception{
+    private ListNodeExpression parseList(ListNodeExpression previous) throws Exception{
         Expression content = parseExp();
         if (currentTokenTypeIs(TokenType.SEMICOLON)){
             nextToken();
-            ListExpression list = new ListExpression(previous, null, content);
+            ListNodeExpression list = new ListNodeExpression(previous, null, content);
             list.setNext(parseList(list));
             return list;
         } else if (currentTokenTypeIs(TokenType.RSQUAREBRACKET)){
             nextToken();
-            ListExpression list = new ListExpression(previous, null, content);
+            ListNodeExpression list = new ListNodeExpression(previous, null, content);
             if (currentTokenTypeIs(TokenType.ADD)){
                 nextToken();
                 if (currentTokenTypeIs(TokenType.LSQUAREBRACKET)) {
                     nextToken();
-                    ListExpression le = parseList(list);
+                    ListNodeExpression le = parseList(list);
                     list.setNext(le);
                 } else {
                     Expression addExp = parseExp();
-                    ListExpression le = new ListExpression(list, null, addExp);
+                    ListNodeExpression le = new ListNodeExpression(list, null, addExp);
                     list.setNext(le);
                 }
             }
@@ -159,7 +160,7 @@ public class Parser {
             if (!currentTokenTypeIs(TokenType.LSQUAREBRACKET)) throw wrongTokenException("[");
             nextToken();
             return parseList(null).map(fun);
-        } else if (currentTokenTypeIs(TokenType.DROP)){
+        } else if (currentTokenTypeIs(TokenType.FILTER)){
             nextToken();
             if (!currentTokenTypeIs(TokenType.LSQUAREBRACKET)) throw wrongTokenException("[");
             nextToken();

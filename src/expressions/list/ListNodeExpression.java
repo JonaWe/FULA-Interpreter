@@ -3,33 +3,35 @@
  * on 22.08.2019
  */
 
-package expressions;
+package expressions.list;
 
 import datastructures.Map;
+import expressions.Expression;
+import expressions.ValueExpression;
 import expressions.lambda.AppExpression;
 
-public class ListExpression extends Expression {
-    private ListExpression previous;
-    private ListExpression next;
+public class ListNodeExpression extends ListExpression {
+    private ListNodeExpression previous;
+    private ListNodeExpression next;
     private Expression content;
     
-    public ListExpression(ListExpression previous, ListExpression next, Expression content){
+    public ListNodeExpression(ListNodeExpression previous, ListNodeExpression next, Expression content){
         this.previous = previous;
         this.next = next;
         this.content = content;
     }
     
-    public String print() throws Exception {
+    public String printList() throws Exception {
         content = content.evaluate();
         if (!(content instanceof ValueExpression)) throw new Exception("Value expected");
         if (next != null)
-            return ((ValueExpression) content).getValue().toString() + "; " + next.print();
+            return ((ValueExpression) content).getValue().toString() + "; " + next.printList();
         else
             return ((ValueExpression) content).getValue().toString() + "]";
     }
-    public ListExpression map(Expression function) throws Exception {
+    public ListNodeExpression map(Expression function) throws Exception {
         if (content != null){
-            content = new AppExpression(function.evaluate(), content.evaluate());
+            content = new AppExpression(function, content);
         }
         if (next != null){
             next = next.map(function);
@@ -38,10 +40,10 @@ public class ListExpression extends Expression {
     }
     
     public ListExpression drop(Expression function) throws Exception {
-        Expression evaluated = content.evaluate();
-        if (!(evaluated instanceof ValueExpression))
+        content = content.evaluate();
+        if (!(content instanceof ValueExpression))
             throw new Exception("couldn't evaluate a list parameter");
-        Expression isDropped = new AppExpression(function.evaluate(), evaluated).evaluate();
+        Expression isDropped = new AppExpression(function.evaluate(), content).evaluate();
         if (!(isDropped instanceof ValueExpression && ((ValueExpression) isDropped).getValue() instanceof Boolean))
             throw new Exception("couldn't apply the drop function on one of the list parameters");
         if ((Boolean) ((ValueExpression) isDropped).getValue()){
@@ -54,7 +56,9 @@ public class ListExpression extends Expression {
     }
     
     public ListExpression remove() throws Exception{
-        if (previous == null && next == null) throw new Exception("Lists can not be empty");
+        if (previous == null && next == null)
+            return new EmptyListExpression();
+            //throw new Exception("Lists can not be empty");
         else if (previous == null) {
             next.setPrevious(null);
             return next;
@@ -71,35 +75,35 @@ public class ListExpression extends Expression {
     @Override
     public Expression evaluate() throws Exception {
         if (next != null)
-            next = (ListExpression) next.evaluate();
+            next = (ListNodeExpression) next.evaluate();
         if (content != null)
             content = content.evaluate();
-        return new ListExpression(previous, next, content);
+        return new ListNodeExpression(previous, next, content);
     }
     
     @Override
     public Expression addMap(Map<String, Expression> map) {
         if (next != null)
-            next = (ListExpression) next.addMap(map);
+            next = (ListNodeExpression) next.addMap(map);
         if (content != null)
             content = content.addMap(map);
-        return new ListExpression(previous, next, content);
+        return new ListNodeExpression(previous, next, content);
     }
     
     @Override
     public Expression replace(String id, Expression replacement) {
         if (next != null)
-            next = (ListExpression) next.replace(id, replacement);
+            next = (ListNodeExpression) next.replace(id, replacement);
         if (content != null)
             content = content.replace(id, replacement);
-        return new ListExpression(previous, next, content);
+        return new ListNodeExpression(previous, next, content);
     }
     
-    public void setNext(ListExpression next) {
+    public void setNext(ListNodeExpression next) {
         this.next = next;
     }
     
-    public void setPrevious(ListExpression previous) {
+    public void setPrevious(ListNodeExpression previous) {
         this.previous = previous;
     }
 }
