@@ -6,6 +6,8 @@ import datastructures.Pair;
 import expressions.*;
 import expressions.bools.BoolExpression;
 import expressions.bools.BoolType;
+import expressions.isType.IsTypeExpression;
+import expressions.isType.ValueTypes;
 import expressions.lambda.AppExpression;
 import expressions.lambda.FunExpression;
 import expressions.lambda.IdExpression;
@@ -437,6 +439,37 @@ public class Parser {
         else if (currentTokenTypeIs(TokenType.PRINT)) {
             nextToken();
             return new PrintExpression(parseValueOrUnaryOperator());
+        }
+        else if (currentTokenTypeIs(TokenType.ISTYPE)) {
+            nextToken();
+            if (!currentTokenTypeIs(TokenType.LBRACKET))
+                throw wrongTokenException("(");
+            nextToken();
+            
+            Expression subExpression = parseExp();
+            
+            if (!currentTokenTypeIs(TokenType.COMMA))
+                throw wrongTokenException(",");
+            
+            nextToken();
+    
+            ValueTypes valueType;
+    
+            if (currentTokenTypeIs(TokenType.BOOLTYPE))
+                valueType = ValueTypes.BOOLEAN;
+            else if (currentTokenTypeIs(TokenType.FLOATTYPE))
+                valueType = ValueTypes.FLOAT;
+            else if (currentTokenTypeIs(TokenType.STRINGTYPE))
+                valueType = ValueTypes.STRING;
+            else throw wrongTokenException("float, boolean or string");
+            
+            nextToken();
+            
+            if (!currentTokenTypeIs(TokenType.RBRACKET))
+                throw wrongTokenException(")");
+            nextToken();
+            
+            return new IsTypeExpression(subExpression, valueType);
         }
         // parsen von Floats
         else if (currentTokenTypeIs(TokenType.FLOAT)){

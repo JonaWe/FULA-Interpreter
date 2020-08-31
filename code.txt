@@ -4,9 +4,9 @@ Beispielprogramm zu Ausgeben aller Primzahlen von 0 bis 1000
 
 #print ( {x -> x} filter [1; 2; 3; 4; 5; 6; 7; 8; 9; 10] )
 
-print (["hey"; "du"; "was geht"])
+#print (["hey kann ich hier jetzt auch print schreiben und alles oder geht das dann nicht mehr"; "du"; "was geht"])
 
-##
+
 let
     # isN gibt true aus wenn die x eine Natürliche Zahl größer als 1 ist
     isN := {x ->
@@ -22,6 +22,7 @@ let
         if min >= max 0
         else printPs(if isP(min) print min+1 else min+1, max)}
 in
-    print ( {x -> false} filter [1; 2; 3; 4; 5; 6; 7; 8; 9; 10] )
+    print ({x -> if isType(x, string) print x else x} map [1; "Hallo"; 3; 4; 5; 6; 7; 8; 9; 10])
+    # {x -> if isType(x, string) print x else} map [1; "hallo"; 3; 4; 5; 6; 7; 8; 9; 10]
 end
 ##

@@ -229,6 +229,15 @@ public class Scanner {
         else if (tokenString.equals("filter"))
             return new Token(TokenType.FILTER, tokenString);
         
+        else if (tokenString.equals("isType"))
+            return new Token(TokenType.ISTYPE, tokenString);
+        else if (tokenString.equals("boolean"))
+            return new Token(TokenType.BOOLTYPE, tokenString);
+        else if (tokenString.equals("float"))
+            return new Token(TokenType.FLOATTYPE, tokenString);
+        else if (tokenString.equals("string"))
+            return new Token(TokenType.STRINGTYPE, tokenString);
+        
         else if (tokenString.startsWith("\""))
             return new ContainerToken<>(TokenType.STRING, tokenString, tokenString.substring(1, tokenString.length() - 1));
 
