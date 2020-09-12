@@ -30,15 +30,18 @@ public class MathExpression extends Expression {
             rightSubExpression = rightSubExpression.evaluate();
             // wenn beide unter Expressions Werte sind
             if (leftSubExpression instanceof ValueExpression && rightSubExpression instanceof ValueExpression){
-                // fehler zurückgeben wenn sie keine Doubles sind
     
                 if (((ValueExpression) leftSubExpression).getValue() instanceof String
-                        && ((ValueExpression) rightSubExpression).getValue() instanceof String)
-                    return new ValueExpression<>(((String)((ValueExpression) leftSubExpression).getValue()) + ((String) ((ValueExpression) rightSubExpression).getValue()));
-        
+                        && ((ValueExpression) rightSubExpression).getValue() instanceof String) {
+                    return new ValueExpression<>(((String)((ValueExpression) leftSubExpression).getValue())
+                            + ((String) ((ValueExpression) rightSubExpression).getValue()));
+                }
+                
+                // fehler zurückgeben wenn sie keine Doubles sind
                 else if (!(((ValueExpression) leftSubExpression).getValue() instanceof Double
-                    || ((ValueExpression) rightSubExpression).getValue() instanceof Double))
+                    || ((ValueExpression) rightSubExpression).getValue() instanceof Double)) {
                     throw new Exception("Double expected");
+                }
 
                 // ausrechnen des Ergebnisses
 

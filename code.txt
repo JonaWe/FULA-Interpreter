@@ -22,7 +22,8 @@ let
         if min >= max 0
         else printPs(if isP(min) print min+1 else min+1, max)}
 in
-    print ({x -> if isType(x, string) print x else x} map [1; "Hallo" + " was geht"; 3; 4; 5; 6; 7; 8; 9; 10])
+    print ( {x -> true} filter [3] add [2] add [1])
+    #print ({x -> if isType(x, string) print x else x} map [1; "Hallo" + " was geht"; 3; 4; 5; 6; 7; 8; 9; 10])
     # {x -> if isType(x, string) print x else} map [1; "hallo"; 3; 4; 5; 6; 7; 8; 9; 10]
 end
 ##
