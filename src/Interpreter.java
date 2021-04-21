@@ -9,9 +9,16 @@ import java.io.FileReader;
 public class Interpreter {
 
     public void execute(String filePath) throws Exception {
+        FileReader fileReader;
 
+        try{
+            fileReader = new FileReader(filePath);
+        } catch(Exception e){
+            throw new Exception("File could not be found or accassed!");
+        }
+        
         // einlesen des Quellcodes
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        BufferedReader reader = new BufferedReader(fileReader);
         String line;
         StringBuilder sourceCode = new StringBuilder();
 
@@ -21,6 +28,7 @@ public class Interpreter {
             sourceCode.append(line);
             sourceCode.append("\n");
         }
+        
 
 
         // es wird ein Parser mit dem Sourcecode erstellt
