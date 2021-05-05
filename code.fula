@@ -1,30 +1,32 @@
-##
-Beispielprogramm zu Ausgeben aller Primzahlen von 0 bis 1000
-##
-
-#print ( {x -> x} filter [1; 2; 3; 4; 5; 6; 7; 8; 9; 10] )
-
-#print (["hey kann ich hier jetzt auch print schreiben und alles oder geht das dann nicht mehr"; "du"; "was geht"])
-
-
 let
-    # isN gibt true aus wenn die x eine Natürliche Zahl größer als 1 ist
+    # isN gibt true aus wenn die x eine Natürliche Zahl ist
     isN := {x ->
-        x%1 == 0 && x > 1}
-    # sub gibt true zurück wenn sich y durch kein keine ganze Zahl kleiner oder gleich x Teilen lässt
+            x%1 == 0 && x > 1
+        }
+
+    # sub gibt true zurück wenn sich y durch keine ganze Zahl kleiner oder gleich x Teilen lässt
     sub := {x, y ->
-        x<=1 || y%x != 0 && sub(x-1, y)}
-    # isP gibt true zurück, wenn x eine Primzahl ist
-    isP := {x ->
-        isN(x) && sub(x-1, x)}
-    # printPs gibt alle primzahlen von min bis max aus
-    printPs := {min, max ->
-        if min >= max 0
-        else printPs(if isP(min) print min+1 else min+1, max)}
+            x<=1 || y%x != 0 && sub(x-1, y)
+        }
+
+    # isPrimeNumber gibt true zurück, wenn x eine Primzahl ist
+    isPrimeNumber := {x ->
+            isN(x) && sub(x-1, x)
+        }
+
+    # printPrimes gibt alle Primzahlen von current bis max aus
+    printPrimes := {current, max ->
+            if current <= max
+                printPrimes(
+                    if isPrimeNumber(current)
+                        print current + 1
+                    else
+                        current + 1
+                    , max
+                )
+            else
+                0
+        }
 in
-    printPs(0, 100)
-    # print ( {x -> true} filter [3] add [2] add [1])
-    # print ({x -> if isType(x, string) print x else x} map [1; "Hallo" + " was geht"; 3; 4; 5; 6; 7; 8; 9; 10])
-    # {x -> if isType(x, string) print x else} map [1; "hallo"; 3; 4; 5; 6; 7; 8; 9; 10]
+    printPrimes(0, 10)
 end
-##
