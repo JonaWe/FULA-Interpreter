@@ -3,7 +3,7 @@
 ## Übersicht
 
 1. [Einleitung](#einleitung)
-2. [Aufbaue der Sprache](#aufbaue-der-sprache)
+2. [Aufbau der Sprache](#aufbau-der-sprache)
 3. [Code Beispiel](#code-beispiel)
 4. [Grammatiken](#grammatiken)
     1. [Grammatik für das Scannen](#grammatik-für-das-scannen)
